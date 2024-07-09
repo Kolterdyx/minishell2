@@ -28,10 +28,10 @@ void destroy_list(t_list *list, void (*destroy_data)(void *)) {
 
 t_list *append_list(t_list *list, void *data) {
     if (list == NULL) {
-        printf("create %p\n", data);
+        printf("create %p %p\n", list, data);
         return new_list(data);
     }
-    printf("append %p\n", data);
+    printf("append %p %p\n", list, data);
     t_list *new = new_list(data);
     while (list->next) {
         list = list->next;

@@ -90,9 +90,6 @@ t_list *tokenize(const char *input) {
     return list;
 }
 
-
-
-
 int main() {
     const char *input = "ls -l | grep foo";
     t_list *tokens = tokenize(input);

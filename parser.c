@@ -20,7 +20,7 @@ t_token *parse_string_var(const char *input, t_list *env_list, size_t *i) {
     while (input[j] != '"' && input[j] != '\0') {
         j++;
     }
-    char *value = malloc(j - *i);
+    char *value = calloc(j - *i, sizeof(char));
     strncpy(value, input + *i + 1, j - *i - 1);
     *i = j;
     value = replace_str(value, env_list);
@@ -29,7 +29,7 @@ t_token *parse_string_var(const char *input, t_list *env_list, size_t *i) {
 
 t_token *parse_arg(const char *input, size_t *i) {
     size_t k = *i;
-    while (input[k] != ' ' && input[k] != '\0') {
+    while (input[k] != ' ' && input[k] != '\0' && input[k] != '$' && input[k] != '"') {
         k++;
     }
     char *value = calloc(k - *i, sizeof(char));
@@ -68,6 +68,7 @@ t_list *tokenize(const char *input, t_list *env_list) {
                 continue;
             case '"':
                 list = append_list(list, parse_string_var(input, env_list, &i));
+                i++;
                 continue;
             default:
                 list = append_list(list, parse_arg(input, &i));

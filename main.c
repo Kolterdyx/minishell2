@@ -146,26 +146,27 @@ char *find_varname(char *str) {
 
 
 char *replace_str(char *str, t_list *env_list) {
-    char *var;
+    char *varname;
     char *start;
     char *end;
     char *tmp2;
     char *tmp;
 
-    var = find_varname(str);
-    while (var) {
-        start = strstr(str, var);
+    varname = find_varname(str); // $VAR
+    while (varname) {
+        start = strstr(str, varname);  // find where the var starts: "hello $USER test" -> "$USER test"
         if (start)
-            end = start + strlen(var);
-        tmp = strndup(str, start - str);
-        tmp2 = ft_strjoin(tmp, get_env_value(env_list, var+1));
+            end = start + strlen(varname);  // find where the var ends: "$USER test" -> "USER test"
+        else
+            return NULL;  // Panic, we should never reach this point
+        tmp = strndup(str, start - str);  // left side of the var: "hello $USER test" -> "hello "
+        tmp2 = ft_strjoin(tmp, get_env_value(env_list, varname+1));  // "hello " + "user" -> "hello user"
         free(tmp);
-        tmp = ft_strjoin(tmp2, end);
+        tmp = ft_strjoin(tmp2, end); // "hello user" + " test" -> "hello user test"
         free(tmp2);
         free(str);
-        str = tmp;
-        printf("%s\n", str);
-        var = find_varname(str);
+        str = tmp;  // "hello user test"
+        varname = find_varname(str);  // find next var
     }
     return str;
 }

@@ -5,7 +5,11 @@
 
 t_token *parse_env_var(const char *input, t_list *env_list, size_t *i) {
     size_t j = *i + 1;
-    while (input[j] != ' ' && input[j] != '$' && input[j] != '"' && input[j] != '\'' && input[j] != '\0') {
+    int first_char_check = ((j - (*i + 1)) == 0 && (ft_isalpha(input[j]) || input[j] == '_'));
+    int other_chars_check = 1;
+    while ((first_char_check || other_chars_check) && input[j] != '\0') {
+        first_char_check = ((j - (*i + 1)) == 0 && (ft_isalpha(input[j]) || input[j] == '_'));
+        other_chars_check = (j - (*i + 1) > 0 && (ft_isalnum(input[j]) || input[j] == '_'));
         j++;
     }
     char *value = malloc(j - *i);

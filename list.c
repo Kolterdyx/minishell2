@@ -6,9 +6,9 @@
 
 #include <stdio.h>
 
-t_list *new_list(void *data) {
+t_list *new_list(const void *data) {
     t_list *list = calloc(1, sizeof(t_list));
-    list->data = data;
+    list->data = (void *)data;
     list->next = NULL;
     list->size = 1;
     return list;
@@ -26,17 +26,17 @@ void destroy_list(t_list *list, void (*destroy_data)(void *)) {
     free(list);
 }
 
-t_list *append_list(t_list *list, void *data) {
+t_list *append_list(const t_list *list, const void *data) {
     if (list == NULL) {
-        printf("create %p %p\n", list, data);
         return new_list(data);
     }
-    printf("append %p %p\n", list, data);
+    t_list *head = (t_list *)list;
+    t_list *node = (t_list *)list;
     t_list *new = new_list(data);
-    while (list->next) {
-        list = list->next;
+    while (node->next) {
+        node = node->next;
     }
-    list->next = new;
-    list->size++;
-    return list;
+    node->next = new;
+    head->size++;
+    return head;
 }

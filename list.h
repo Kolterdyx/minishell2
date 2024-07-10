@@ -12,10 +12,10 @@ typedef struct s_list {
     int size;
 } t_list;
 
-t_list *new_list(void *data);
+t_list *new_list(const void *data);
 
 void destroy_list(t_list *list, void (*destroy_data)(void *));
 
-t_list *append_list(t_list *list, void *data);
+t_list *append_list(const t_list *list, const void *data);
 
 #endif //LIST_H

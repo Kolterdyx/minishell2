@@ -5,4 +5,9 @@ set(CMAKE_C_STANDARD 99)
 
 add_executable(minishell main.c
         list.c
-        list.h)
+        list.h
+        minishell.h
+        token.c
+        utils.c
+        env.c
+        parser.c)

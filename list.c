@@ -35,6 +35,7 @@ t_list *append_list(const t_list *list, const void *data) {
     t_list *new = new_list(data);
     while (node->next) {
         node = node->next;
+        node->size++;
     }
     node->next = new;
     head->size++;
